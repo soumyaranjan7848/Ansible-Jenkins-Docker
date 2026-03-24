@@ -2,7 +2,7 @@
 
 ## 📌 Project Overview
 
-This project demonstrates a **complete CI/CD pipeline** using **Jenkins**, **Ansible**, and **AWS EC2** to automate the deployment of a static eCommerce website on an NGINX web server.
+This project demonstrates a **complete CI/CD pipeline** using **Jenkins**, **Ansible**, and **AWS EC2** to automate the deployment of a Netflix demo website on an NGINX web server.
 
 The pipeline ensures that whenever changes are pushed to the Git repository, the application is automatically deployed to a remote server.
 
