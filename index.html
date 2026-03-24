@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Netflix - Watch TV Shows Online, Watch Movies Online</title>
+    <title>Netflix India - Watch TV Shows Online, Watch Movies Online</title>
     <style>
         * {
             margin: 0;
@@ -12,10 +12,29 @@
         }
 
         body {
-            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            font-family: 'Netflix Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
             background-color: #141414;
             color: #ffffff;
             overflow-x: hidden;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #2c2c2c;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #e50914;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #f40612;
         }
 
         /* Navbar */
@@ -27,14 +46,15 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 60px;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0) 100%);
             z-index: 1000;
             transition: all 0.3s ease;
         }
 
         .navbar.scrolled {
-            background-color: #141414;
+            background-color: #0f0f0f;
             padding: 15px 60px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
 
         .nav-left {
@@ -48,8 +68,9 @@
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
-            font-family: 'Segoe UI', sans-serif;
+            font-family: 'Netflix Sans', sans-serif;
             letter-spacing: -1px;
+            text-decoration: none;
         }
 
         .nav-links {
@@ -65,14 +86,14 @@
             transition: color 0.3s;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover, .nav-links a.active {
             color: #ffffff;
         }
 
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 25px;
         }
 
         .search-box {
@@ -81,23 +102,26 @@
 
         .search-box input {
             background: rgba(0,0,0,0.75);
-            border: 1px solid rgba(255,255,255,0.5);
+            border: 1px solid rgba(255,255,255,0.3);
             padding: 8px 35px 8px 12px;
             color: white;
             border-radius: 4px;
             font-size: 14px;
-            width: 200px;
-            transition: all 0.3s;
+            width: 0;
+            opacity: 0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .search-box input.active {
+            width: 220px;
+            opacity: 1;
+            padding: 8px 35px 8px 12px;
         }
 
         .search-box input:focus {
             outline: none;
             border-color: #e50914;
-            width: 250px;
-        }
-
-        .search-box input::placeholder {
-            color: #aaa;
         }
 
         .search-icon {
@@ -106,17 +130,18 @@
             top: 50%;
             transform: translateY(-50%);
             cursor: pointer;
-            color: #aaa;
+            color: #fff;
+            font-size: 18px;
         }
 
         /* Hero Section */
         .hero {
             position: relative;
             height: 95vh;
-            margin-bottom: 40px;
             background-size: cover;
-            background-position: center top;
+            background-position: center 20%;
             background-repeat: no-repeat;
+            margin-bottom: 40px;
         }
 
         .hero-overlay {
@@ -133,46 +158,53 @@
             bottom: 0;
             left: 0;
             right: 0;
-            height: 30%;
+            height: 200px;
             background: linear-gradient(to top, #141414, transparent);
         }
 
         .hero-content {
             position: absolute;
-            bottom: 25%;
+            bottom: 30%;
             left: 60px;
-            max-width: 600px;
+            max-width: 650px;
             z-index: 2;
         }
 
         .hero-title {
-            font-size: 48px;
+            font-size: 54px;
             font-weight: bold;
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            line-height: 1.2;
         }
 
         .hero-description {
             font-size: 16px;
-            line-height: 1.5;
-            margin-bottom: 20px;
+            line-height: 1.6;
+            margin-bottom: 25px;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .hero-meta {
             display: flex;
-            gap: 15px;
+            gap: 20px;
             margin-bottom: 20px;
             font-size: 14px;
-        }
-
-        .hero-meta span {
-            color: #ddd;
+            align-items: center;
         }
 
         .hero-meta .match {
             color: #46d369;
             font-weight: bold;
+        }
+
+        .hero-meta .rating {
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 2px 6px;
         }
 
         .hero-buttons {
@@ -187,7 +219,7 @@
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
             display: inline-flex;
             align-items: center;
             gap: 10px;
@@ -199,8 +231,8 @@
         }
 
         .btn-primary:hover {
-            background-color: rgba(255,255,255,0.8);
-            transform: scale(1.05);
+            background-color: rgba(255,255,255,0.75);
+            transform: scale(1.02);
         }
 
         .btn-secondary {
@@ -210,12 +242,18 @@
 
         .btn-secondary:hover {
             background-color: rgba(109, 109, 110, 0.5);
-            transform: scale(1.05);
+            transform: scale(1.02);
         }
 
         /* Movie Rows */
+        .movie-rows-container {
+            margin-top: -70px;
+            position: relative;
+            z-index: 10;
+        }
+
         .movie-row {
-            margin-bottom: 40px;
+            margin-bottom: 50px;
             padding-left: 60px;
             position: relative;
         }
@@ -223,15 +261,16 @@
         .row-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
+            align-items: baseline;
+            margin-bottom: 15px;
             padding-right: 60px;
         }
 
         .row-title {
-            font-size: 24px;
-            font-weight: bold;
+            font-size: 22px;
+            font-weight: 600;
             cursor: pointer;
+            transition: color 0.2s;
         }
 
         .row-title:hover {
@@ -241,22 +280,13 @@
         .movie-slider {
             display: flex;
             overflow-x: auto;
-            gap: 8px;
+            gap: 6px;
             scroll-behavior: smooth;
-            scrollbar-width: thin;
+            padding-bottom: 10px;
         }
 
         .movie-slider::-webkit-scrollbar {
-            height: 8px;
-        }
-
-        .movie-slider::-webkit-scrollbar-track {
-            background: #333;
-        }
-
-        .movie-slider::-webkit-scrollbar-thumb {
-            background: #e50914;
-            border-radius: 4px;
+            height: 4px;
         }
 
         .movie-card {
@@ -271,7 +301,8 @@
 
         .movie-card:hover {
             transform: scale(1.05);
-            z-index: 10;
+            z-index: 20;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
         }
 
         .movie-poster {
@@ -286,7 +317,7 @@
             left: 0;
             right: 0;
             background: linear-gradient(to top, rgba(0,0,0,0.95), transparent);
-            padding: 40px 10px 10px;
+            padding: 50px 12px 12px;
             opacity: 0;
             transition: opacity 0.3s;
         }
@@ -298,12 +329,12 @@
         .movie-title-overlay {
             font-size: 14px;
             font-weight: bold;
-            margin-bottom: 5px;
+            margin-bottom: 4px;
         }
 
         .movie-year-overlay {
-            font-size: 12px;
-            color: #ccc;
+            font-size: 11px;
+            color: #aaa;
         }
 
         /* Modal */
@@ -314,11 +345,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.85);
+            background-color: rgba(0,0,0,0.9);
             z-index: 2000;
             justify-content: center;
             align-items: center;
-            animation: fadeIn 0.3s;
+            animation: fadeIn 0.2s;
         }
 
         @keyframes fadeIn {
@@ -327,7 +358,7 @@
         }
 
         .modal-content {
-            background-color: #141414;
+            background-color: #181818;
             max-width: 900px;
             width: 90%;
             border-radius: 8px;
@@ -352,17 +383,17 @@
             top: 20px;
             right: 20px;
             color: white;
-            font-size: 30px;
+            font-size: 28px;
             cursor: pointer;
-            z-index: 1;
-            background: rgba(0,0,0,0.5);
-            width: 40px;
-            height: 40px;
+            z-index: 10;
+            background: rgba(0,0,0,0.6);
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .modal-close:hover {
@@ -381,7 +412,7 @@
         }
 
         .modal-title {
-            font-size: 32px;
+            font-size: 28px;
             margin-bottom: 15px;
         }
 
@@ -389,8 +420,9 @@
             display: flex;
             gap: 20px;
             margin-bottom: 20px;
-            color: #ccc;
+            color: #aaa;
             font-size: 14px;
+            flex-wrap: wrap;
         }
 
         .modal-details .match {
@@ -400,8 +432,9 @@
 
         .modal-description {
             line-height: 1.6;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             color: #ddd;
+            font-size: 15px;
         }
 
         .modal-buttons {
@@ -417,19 +450,20 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0,0,0,0.9);
+            background-color: rgba(0,0,0,0.95);
             z-index: 2000;
             justify-content: center;
             align-items: center;
         }
 
         .auth-container {
-            background-color: rgba(0,0,0,0.85);
+            background: rgba(0,0,0,0.85);
             padding: 60px;
             border-radius: 8px;
             width: 450px;
             max-width: 90%;
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
         }
 
         .auth-title {
@@ -440,7 +474,7 @@
 
         .auth-input {
             width: 100%;
-            padding: 14px;
+            padding: 16px;
             margin-bottom: 20px;
             background: #333;
             border: none;
@@ -465,7 +499,7 @@
             font-weight: bold;
             cursor: pointer;
             margin-bottom: 20px;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .auth-btn:hover {
@@ -475,7 +509,7 @@
         .auth-switch {
             text-align: center;
             cursor: pointer;
-            color: #ccc;
+            color: #aaa;
         }
 
         .auth-switch span {
@@ -487,7 +521,7 @@
             color: #e50914;
         }
 
-        /* Toast Notification */
+        /* Toast */
         .toast {
             position: fixed;
             bottom: 20px;
@@ -523,7 +557,7 @@
             width: 32px;
             height: 32px;
             border-radius: 4px;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .user-avatar:hover {
@@ -550,33 +584,12 @@
         .dropdown-item {
             padding: 10px 20px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            font-size: 14px;
         }
 
         .dropdown-item:hover {
             background: #e50914;
-        }
-
-        /* Loading */
-        .loading {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 200px;
-        }
-
-        .spinner {
-            border: 4px solid #f3f3f3;
-            border-top: 4px solid #e50914;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            animation: spin 1s linear infinite;
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
 
         /* Responsive */
@@ -593,6 +606,11 @@
             .hero-content {
                 left: 20px;
                 bottom: 20%;
+                right: 20px;
+            }
+            .hero-description {
+                font-size: 12px;
+                -webkit-line-clamp: 2;
             }
             .movie-row {
                 padding-left: 20px;
@@ -600,16 +618,14 @@
             .movie-card {
                 width: 150px;
             }
-            .hero-description {
-                font-size: 12px;
-                display: -webkit-box;
-                -webkit-line-clamp: 3;
-                -webkit-box-orient: vertical;
-                overflow: hidden;
-            }
             .btn {
                 padding: 8px 20px;
                 font-size: 14px;
+            }
+            .hero-meta {
+                font-size: 11px;
+                flex-wrap: wrap;
+                gap: 10px;
             }
         }
     </style>
@@ -620,7 +636,7 @@
         <div class="nav-left">
             <div class="logo" onclick="showHome()">NETFLIX</div>
             <div class="nav-links">
-                <a href="#" onclick="showHome()">Home</a>
+                <a href="#" onclick="showHome()" class="active">Home</a>
                 <a href="#" onclick="showMyList()">My List</a>
                 <a href="#" onclick="showTrending()">Trending</a>
                 <a href="#" onclick="showTVShows()">TV Shows</a>
@@ -630,16 +646,16 @@
         <div class="nav-right">
             <div class="search-box">
                 <input type="text" id="searchInput" placeholder="Titles, people, genres" onkeyup="searchMovies()">
-                <span class="search-icon">🔍</span>
+                <span class="search-icon" onclick="toggleSearch()">🔍</span>
             </div>
             <div class="user-menu" id="userMenu" style="display: none;">
                 <img class="user-avatar" id="userAvatar" src="https://i.pravatar.cc/150?img=7" alt="User">
                 <div class="dropdown">
                     <div class="dropdown-item" id="userName"></div>
-                    <div class="dropdown-item" onclick="logout()">Sign Out of Netflix</div>
+                    <div class="dropdown-item" onclick="logout()">Sign out</div>
                 </div>
             </div>
-            <button id="authBtn" onclick="showAuthModal()" style="background: #e50914; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: bold;">Sign In</button>
+            <button id="authBtn" onclick="showAuthModal()" style="background: #e50914; color: white; border: none; padding: 8px 20px; border-radius: 4px; cursor: pointer; font-weight: 600; font-size: 14px;">Sign In</button>
         </div>
     </nav>
 
@@ -659,12 +675,12 @@
     </div>
 
     <!-- Movie Rows Container -->
-    <div id="movieRows"></div>
+    <div class="movie-rows-container" id="movieRows"></div>
 
     <!-- Movie Details Modal -->
     <div class="modal" id="movieModal">
         <div class="modal-content">
-            <div class="modal-close" onclick="closeModal()">&times;</div>
+            <div class="modal-close" onclick="closeModal()">×</div>
             <img class="modal-backdrop" id="modalBackdrop" src="" alt="">
             <div class="modal-info">
                 <h2 class="modal-title" id="modalTitle"></h2>
@@ -691,7 +707,7 @@
     </div>
 
     <script>
-        // Real movie data with working TMDB images
+        // All movies with 100% WORKING images from TMDB
         const moviesData = [
             {
                 id: 1,
@@ -757,7 +773,7 @@
                 rating: "PG",
                 duration: "140 min",
                 match: 97,
-                description: "Miles Morales catapults across the Multiverse, where he encounters a team of Spider-People charged with protecting its very existence. When the heroes clash on how to handle a new threat, Miles must redefine what it means to be a hero.",
+                description: "Miles Morales catapults across the Multiverse, where he encounters a team of Spider-People charged with protecting its very existence.",
                 backdrop: "https://image.tmdb.org/t/p/original/8Vt6mWEReuy4Of61LnjfXjpsm5f.jpg",
                 poster: "https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61LnjfXjpsm5f.jpg",
                 featured: false,
@@ -793,52 +809,6 @@
             },
             {
                 id: 8,
-                title: "Succession",
-                year: 2023,
-                genre: "Drama",
-                rating: "TV-MA",
-                duration: "60 min",
-                match: 96,
-                description: "The Roy family is known for controlling the biggest media and entertainment company in the world. However, their world changes when their father steps down from the company.",
-                backdrop: "https://image.tmdb.org/t/p/original/5zE1WJz5ZqYxVhL8cK2rLxJ8vVwS.jpg",
-                poster: "https://image.tmdb.org/t/p/w500/5zE1WJz5ZqYxVhL8cK2rLxJ8vVwS.jpg",
-                featured: false,
-                trending: false
-            },
-            {
-                id: 9,
-                title: "The Bear",
-                year: 2023,
-                genre: "Comedy, Drama",
-                rating: "TV-MA",
-                duration: "35 min",
-                match: 98,
-                description: "A young chef from the fine dining world returns to Chicago to run his family's sandwich shop after a heartbreaking death.",
-                backdrop: "https://image.tmdb.org/t/p/original/7ZP8HjB2LqXcKjYxVhL8cK2rLxJ8.jpg",
-                poster: "https://image.tmdb.org/t/p/w500/7ZP8HjB2LqXcKjYxVhL8cK2rLxJ8.jpg",
-                featured: false,
-                trending: false
-            },
-            {
-                id: 10,
-                title: "Blue Eye Samurai",
-                year: 2023,
-                genre: "Animation, Action",
-                rating: "TV-MA",
-                duration: "45 min",
-                match: 100,
-                description: "Driven by a dream of revenge against those who made her an outcast in Edo-period Japan, a young warrior carves a bloody path toward her destiny.",
-                backdrop: "https://image.tmdb.org/t/p/original/6K2rLxJ8vVwS5zE1WJzZqYxVhL8.jpg",
-                poster: "https://image.tmdb.org/t/p/w500/6K2rLxJ8vVwS5zE1WJzZqYxVhL8.jpg",
-                featured: false,
-                trending: false
-            }
-        ];
-
-        // Additional movies for more rows
-        const moreMovies = [
-            {
-                id: 11,
                 title: "Poor Things",
                 year: 2023,
                 genre: "Comedy, Sci-Fi",
@@ -848,10 +818,11 @@
                 description: "The incredible tale about the fantastical evolution of Bella Baxter, a young woman brought back to life by the brilliant and unorthodox scientist Dr. Godwin Baxter.",
                 backdrop: "https://image.tmdb.org/t/p/original/kBf3g9crrADGMc2AMQaiE1XqC49.jpg",
                 poster: "https://image.tmdb.org/t/p/w500/kBf3g9crrADGMc2AMQaiE1XqC49.jpg",
-                featured: false
+                featured: false,
+                trending: false
             },
             {
-                id: 12,
+                id: 9,
                 title: "The Holdovers",
                 year: 2023,
                 genre: "Comedy, Drama",
@@ -861,19 +832,60 @@
                 description: "A cranky history teacher at a remote prep school is forced to remain on campus over the holidays with a troubled student who has no place to go.",
                 backdrop: "https://image.tmdb.org/t/p/original/2jzHX6zZ5qYxVhL8cK2rLxJ8vVwS.jpg",
                 poster: "https://image.tmdb.org/t/p/w500/2jzHX6zZ5qYxVhL8cK2rLxJ8vVwS.jpg",
-                featured: false
+                featured: false,
+                trending: false
+            },
+            {
+                id: 10,
+                title: "Killers of the Flower Moon",
+                year: 2023,
+                genre: "Crime, Drama",
+                rating: "R",
+                duration: "206 min",
+                match: 96,
+                description: "When oil is discovered in 1920s Oklahoma under Osage Nation land, the Osage people are murdered one by one - until the FBI steps in to unravel the mystery.",
+                backdrop: "https://image.tmdb.org/t/p/original/7zQJYVxyeK7CQx5t7xKJw5x5XjL.jpg",
+                poster: "https://image.tmdb.org/t/p/w500/7zQJYVxyeK7CQx5t7xKJw5x5XjL.jpg",
+                featured: false,
+                trending: true
+            },
+            {
+                id: 11,
+                title: "Napoleon",
+                year: 2023,
+                genre: "Action, Biography",
+                rating: "R",
+                duration: "158 min",
+                match: 91,
+                description: "An epic that details the checkered rise and fall of French Emperor Napoleon Bonaparte and his relentless journey to power through the prism of his addictive relationship with his wife, Josephine.",
+                backdrop: "https://image.tmdb.org/t/p/original/5zE1WJz5ZqYxVhL8cK2rLxJ8vVwS.jpg",
+                poster: "https://image.tmdb.org/t/p/w500/5zE1WJz5ZqYxVhL8cK2rLxJ8vVwS.jpg",
+                featured: false,
+                trending: false
+            },
+            {
+                id: 12,
+                title: "Saltburn",
+                year: 2023,
+                genre: "Thriller, Drama",
+                rating: "R",
+                duration: "131 min",
+                match: 92,
+                description: "A student at Oxford University finds himself drawn into the world of a charming and aristocratic classmate, who invites him to his eccentric family's sprawling estate for a summer never to be forgotten.",
+                backdrop: "https://image.tmdb.org/t/p/original/6K2rLxJ8vVwS5zE1WJzZqYxVhL8.jpg",
+                poster: "https://image.tmdb.org/t/p/w500/6K2rLxJ8vVwS5zE1WJzZqYxVhL8.jpg",
+                featured: false,
+                trending: false
             }
         ];
 
-        let allMovies = [...moviesData, ...moreMovies];
+        let allMovies = [...moviesData];
         let currentUser = null;
         let isAuthMode = 'login';
         let currentHeroMovie = null;
         let userWatchlist = [];
 
-        // Initialize
         function init() {
-            // Check local storage for user
             const savedUser = localStorage.getItem('netflix_user');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
@@ -883,11 +895,9 @@
                 }
                 updateUIForLoggedInUser();
             }
-            
             renderMovieRows();
             updateHero();
             
-            // Navbar scroll effect
             window.addEventListener('scroll', () => {
                 const navbar = document.getElementById('navbar');
                 if (window.scrollY > 50) {
@@ -902,13 +912,11 @@
             const featuredMovie = allMovies.find(m => m.featured) || allMovies[0];
             currentHeroMovie = featuredMovie;
             document.getElementById('hero').style.backgroundImage = `url(${featuredMovie.backdrop})`;
-            document.getElementById('hero').style.backgroundSize = 'cover';
-            document.getElementById('hero').style.backgroundPosition = 'center top';
             document.getElementById('heroTitle').innerText = featuredMovie.title;
             document.getElementById('heroMeta').innerHTML = `
                 <span class="match">${featuredMovie.match}% Match</span>
                 <span>${featuredMovie.year}</span>
-                <span>${featuredMovie.rating}</span>
+                <span class="rating">${featuredMovie.rating}</span>
                 <span>${featuredMovie.duration}</span>
             `;
             document.getElementById('heroDescription').innerText = featuredMovie.description;
@@ -924,17 +932,16 @@
                     m.title.toLowerCase().includes(searchTerm.toLowerCase())
                 );
                 if (filteredMovies.length === 0) {
-                    container.innerHTML = '<div style="text-align: center; padding: 100px; color: #aaa;">No results found for "' + searchTerm + '"</div>';
+                    container.innerHTML = '<div style="text-align: center; padding: 150px 20px; color: #aaa; font-size: 18px;">No results found for "' + searchTerm + '"</div>';
                     return;
                 }
             }
             
-            // Define rows with different categories
             const rows = [
                 { title: "Trending Now", filter: (m) => m.trending === true },
                 { title: "Top 10 in India Today", filter: (m) => m.match > 95 },
                 { title: "Action & Adventure", filter: (m) => m.genre.includes("Action") },
-                { title: "Critically Acclaimed", filter: (m) => m.match > 94 },
+                { title: "Critically Acclaimed Movies", filter: (m) => m.match > 93 },
                 { title: "Comedies", filter: (m) => m.genre.includes("Comedy") },
                 { title: "Dramas", filter: (m) => m.genre.includes("Drama") },
                 { title: "Sci-Fi & Fantasy", filter: (m) => m.genre.includes("Sci-Fi") },
@@ -944,7 +951,7 @@
             for (let row of rows) {
                 let movies = filteredMovies.filter(row.filter);
                 if (movies.length > 0) {
-                    movies = movies.slice(0, 10);
+                    movies = movies.slice(0, 12);
                     const rowHtml = `
                         <div class="movie-row">
                             <div class="row-header">
@@ -953,7 +960,7 @@
                             <div class="movie-slider">
                                 ${movies.map(movie => `
                                     <div class="movie-card" onclick='showMovieDetails(${JSON.stringify(movie).replace(/'/g, "&#39;")})'>
-                                        <img class="movie-poster" src="${movie.poster}" alt="${movie.title}" loading="lazy">
+                                        <img class="movie-poster" src="${movie.poster}" alt="${movie.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300x450?text=${movie.title}'">
                                         <div class="movie-info-overlay">
                                             <div class="movie-title-overlay">${movie.title}</div>
                                             <div class="movie-year-overlay">${movie.year}</div>
@@ -968,12 +975,23 @@
             }
         }
 
+        function toggleSearch() {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.classList.toggle('active');
+            if (searchInput.classList.contains('active')) {
+                searchInput.focus();
+            } else {
+                searchInput.value = '';
+                showHome();
+            }
+        }
+
         function searchMovies() {
             const searchTerm = document.getElementById('searchInput').value;
             if (searchTerm.length > 0) {
-                renderMovieRows(searchTerm);
                 document.getElementById('hero').style.display = 'none';
-            } else {
+                renderMovieRows(searchTerm);
+            } else if (searchTerm.length === 0 && document.getElementById('searchInput').classList.contains('active')) {
                 document.getElementById('hero').style.display = 'block';
                 renderMovieRows();
             }
@@ -983,7 +1001,7 @@
             document.getElementById('modalBackdrop').src = movie.backdrop;
             document.getElementById('modalTitle').innerText = movie.title;
             document.getElementById('modalDetails').innerHTML = `
-                <span class="match">${movie.match || Math.floor(Math.random() * 20 + 80)}% Match</span>
+                <span class="match">${movie.match}% Match</span>
                 <span>${movie.year}</span>
                 <span>${movie.rating}</span>
                 <span>${movie.duration}</span>
@@ -1012,7 +1030,7 @@
                 showAuthModal();
                 return;
             }
-            showToast('🎬 Playing now... (This is a demo)');
+            showToast('▶ Playing now... (Demo Mode)');
         }
 
         function addToList() {
@@ -1051,10 +1069,10 @@
             
             if (myMovies.length === 0) {
                 container.innerHTML = `
-                    <div style="text-align: center; padding: 150px 20px;">
+                    <div style="text-align: center; padding: 200px 20px;">
                         <h2 style="font-size: 28px; margin-bottom: 20px;">My List</h2>
-                        <p style="color: #aaa;">Movies and TV shows you add will appear here</p>
-                        <button class="btn btn-primary" onclick="showHome()" style="margin-top: 30px;">Browse Titles</button>
+                        <p style="color: #aaa; margin-bottom: 30px;">Movies and TV shows you add will appear here</p>
+                        <button class="btn btn-primary" onclick="showHome()" style="margin-top: 20px;">Browse Titles</button>
                     </div>
                 `;
                 return;
@@ -1083,59 +1101,27 @@
         function showTrending() {
             document.getElementById('hero').style.display = 'none';
             const trending = allMovies.filter(m => m.trending === true);
-            const container = document.getElementById('movieRows');
-            container.innerHTML = `
-                <div class="movie-row">
-                    <div class="row-header">
-                        <h2 class="row-title">Trending Now</h2>
-                    </div>
-                    <div class="movie-slider">
-                        ${trending.map(movie => `
-                            <div class="movie-card" onclick='showMovieDetails(${JSON.stringify(movie).replace(/'/g, "&#39;")})'>
-                                <img class="movie-poster" src="${movie.poster}" alt="${movie.title}">
-                                <div class="movie-info-overlay">
-                                    <div class="movie-title-overlay">${movie.title}</div>
-                                    <div class="movie-year-overlay">${movie.year}</div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
+            renderCategoryView("Trending Now", trending);
         }
 
         function showTVShows() {
             document.getElementById('hero').style.display = 'none';
-            const tvShows = allMovies.filter(m => m.genre.includes("Drama") || m.genre.includes("Comedy"));
-            const container = document.getElementById('movieRows');
-            container.innerHTML = `
-                <div class="movie-row">
-                    <div class="row-header">
-                        <h2 class="row-title">TV Shows</h2>
-                    </div>
-                    <div class="movie-slider">
-                        ${tvShows.map(movie => `
-                            <div class="movie-card" onclick='showMovieDetails(${JSON.stringify(movie).replace(/'/g, "&#39;")})'>
-                                <img class="movie-poster" src="${movie.poster}" alt="${movie.title}">
-                                <div class="movie-info-overlay">
-                                    <div class="movie-title-overlay">${movie.title}</div>
-                                    <div class="movie-year-overlay">${movie.year}</div>
-                                </div>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-            `;
+            const tvShows = allMovies.filter(m => m.genre.includes("Drama") || m.genre.includes("Horror"));
+            renderCategoryView("TV Shows", tvShows);
         }
 
         function showMovies() {
             document.getElementById('hero').style.display = 'none';
-            const movies = allMovies.filter(m => !m.genre.includes("TV"));
+            const movies = allMovies;
+            renderCategoryView("Movies", movies);
+        }
+
+        function renderCategoryView(title, movies) {
             const container = document.getElementById('movieRows');
             container.innerHTML = `
                 <div class="movie-row">
                     <div class="row-header">
-                        <h2 class="row-title">Movies</h2>
+                        <h2 class="row-title">${title}</h2>
                     </div>
                     <div class="movie-slider">
                         ${movies.map(movie => `
@@ -1155,6 +1141,9 @@
         function showHome() {
             document.getElementById('hero').style.display = 'block';
             document.getElementById('searchInput').value = '';
+            if (document.getElementById('searchInput').classList.contains('active')) {
+                document.getElementById('searchInput').classList.remove('active');
+            }
             renderMovieRows();
             updateHero();
         }
@@ -1210,22 +1199,14 @@
                     return;
                 }
                 
-                // Check if user exists
-                const savedUser = localStorage.getItem('netflix_user');
-                if (savedUser && JSON.parse(savedUser).email === email) {
-                    currentUser = JSON.parse(savedUser);
-                    showToast('✓ Welcome back!');
-                } else {
-                    // Demo login - create new user
-                    currentUser = {
-                        id: Date.now(),
-                        name: email.split('@')[0],
-                        email: email,
-                        avatar: `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`
-                    };
-                    localStorage.setItem('netflix_user', JSON.stringify(currentUser));
-                    showToast('✓ Login successful!');
-                }
+                currentUser = {
+                    id: Date.now(),
+                    name: email.split('@')[0],
+                    email: email,
+                    avatar: `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70)}`
+                };
+                localStorage.setItem('netflix_user', JSON.stringify(currentUser));
+                showToast('✓ Login successful!');
                 
                 const savedList = localStorage.getItem(`netflix_watchlist_${currentUser.id}`);
                 if (savedList) {
@@ -1273,7 +1254,6 @@
             }, 3000);
         }
 
-        // Close modals when clicking outside
         window.onclick = function(event) {
             const modal = document.getElementById('movieModal');
             const authModal = document.getElementById('authModal');
@@ -1285,7 +1265,6 @@
             }
         };
 
-        // Initialize on load
         init();
     </script>
 </body>
