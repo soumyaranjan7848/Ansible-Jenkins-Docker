@@ -14,6 +14,14 @@ pipeline {
             }
         }
 
+        stage('Prepare Files') {
+            steps {
+                sh '''
+                cp index.html ansible/roles/nginx/files/index.html
+                '''
+            }
+        }
+
         stage('Deploy via Ansible') {
             steps {
                 sh '''
