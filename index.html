@@ -3,31 +3,31 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DevOps Store</title>
+<title>Hotstar Clone</title>
 
 <style>
 body {
     margin: 0;
+    background-color: #0f171e;
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
+    color: white;
 }
 
 /* Navbar */
 nav {
-    background: #111;
-    color: #fff;
-    padding: 15px;
     display: flex;
     justify-content: space-between;
+    padding: 15px 40px;
+    background: #0f171e;
 }
 
 nav h2 {
-    margin: 0;
+    color: #1f80e0;
 }
 
 nav ul {
-    list-style: none;
     display: flex;
+    list-style: none;
     gap: 20px;
 }
 
@@ -37,14 +37,15 @@ nav ul li {
 
 /* Hero */
 .hero {
-    background: url('https://images.unsplash.com/photo-1523275335684-37898b6baf30') no-repeat center/cover;
-    height: 60vh;
-    color: white;
+    height: 70vh;
+    background: url('https://images.unsplash.com/photo-1608889175123-8ee362201f81') no-repeat center/cover;
     display: flex;
     align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
+    padding: 40px;
+}
+
+.hero-content {
+    max-width: 500px;
 }
 
 .hero h1 {
@@ -52,56 +53,41 @@ nav ul li {
 }
 
 .hero button {
-    padding: 10px 20px;
+    background: #1f80e0;
     border: none;
-    background: orange;
+    padding: 12px 20px;
     color: white;
-    font-size: 18px;
     cursor: pointer;
+    margin-top: 10px;
 }
 
-/* Products */
-.products {
-    padding: 40px;
-    text-align: center;
-}
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 20px;
-}
-
-.card {
-    background: white;
+/* Rows */
+.row {
     padding: 20px;
-    border-radius: 10px;
 }
 
-.card img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
+.row h2 {
+    margin-bottom: 10px;
 }
 
-.card h3 {
-    margin: 10px 0;
+.row-posters {
+    display: flex;
+    overflow-x: scroll;
 }
 
-.card button {
-    background: green;
-    color: white;
-    border: none;
-    padding: 10px;
-    cursor: pointer;
+.row-posters img {
+    width: 200px;
+    margin-right: 10px;
+    transition: transform 0.3s;
 }
 
-/* Footer */
-footer {
-    background: #111;
-    color: white;
-    text-align: center;
-    padding: 20px;
+.row-posters img:hover {
+    transform: scale(1.1);
+}
+
+/* Hide scrollbar */
+.row-posters::-webkit-scrollbar {
+    display: none;
 }
 </style>
 </head>
@@ -110,62 +96,54 @@ footer {
 
 <!-- Navbar -->
 <nav>
-    <h2>🛒 DevOps Store</h2>
+    <h2>Disney+ Hotstar</h2>
     <ul>
         <li>Home</li>
-        <li>Products</li>
-        <li>Contact</li>
+        <li>TV</li>
+        <li>Movies</li>
+        <li>Sports</li>
     </ul>
 </nav>
 
 <!-- Hero -->
 <div class="hero">
-    <h1>Welcome to DevOps Store 🚀</h1>
-    <p>Deployed using Jenkins + Ansible</p>
-    <button>Shop Now</button>
+    <div class="hero-content">
+        <h1>Avengers: Endgame</h1>
+        <p>Watch the epic conclusion of the Infinity Saga.</p>
+        <button>▶ Watch Now</button>
+    </div>
 </div>
 
-<!-- Products -->
-<section class="products">
-    <h2>Featured Products</h2>
-
-    <div class="product-grid">
-
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9">
-            <h3>Smartphone</h3>
-            <p>₹15,999</p>
-            <button>Buy Now</button>
-        </div>
-
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1517336714731-489689fd1ca8">
-            <h3>Laptop</h3>
-            <p>₹55,999</p>
-            <button>Buy Now</button>
-        </div>
-
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1518441902117-9c2d0cba0f7d">
-            <h3>Headphones</h3>
-            <p>₹2,999</p>
-            <button>Buy Now</button>
-        </div>
-
-        <div class="card">
-            <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e">
-            <h3>Smart Watch</h3>
-            <p>₹4,999</p>
-            <button>Buy Now</button>
-        </div>
-
+<!-- Movie Rows -->
+<div class="row">
+    <h2>Trending Now</h2>
+    <div class="row-posters">
+        <img src="https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg">
+        <img src="https://image.tmdb.org/t/p/w500/6ELCZlTA5lGUops70hKdB83WJxH.jpg">
+        <img src="https://image.tmdb.org/t/p/w500/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg">
+        <img src="https://image.tmdb.org/t/p/w500/xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg">
     </div>
-</section>
+</div>
 
-<!-- Footer -->
-<footer>
-    <p>© 2026 DevOps Store | Built with ❤️ using Jenkins & Ansible</p>
-</footer>
+<div class="row">
+    <h2>Popular Movies</h2>
+    <div class="row-posters">
+        <img src="https://image.tmdb.org/t/p/w500/8UlWHLMpgZm9bx6QYh0NFoq67TZ.jpg">
+        <img src="https://image.tmdb.org/t/p/w500/kqjL17yufvn9OVLyXYpvtyrFfak.jpg">
+        <img src="https://image.tmdb.org/t/p/w500/5P8SmMzSNYikXpxil6BYzJ16611.jpg">
+        <img src="https://image.tmdb.org/t/p/w500/r7XifzvtezNt31ypvsmb6Oqxw49.jpg">
+    </div>
+</div>
+
+<div class="row">
+    <h2>Top Rated</h2>
+    <div class="row-posters">
+        <img src="https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg">
+        <img src="https://image.tmdb.org/t/p/w500/jTswp6KyDYKtvC52GbHagrZbGvD.jpg">
+        <img src="https://image.tmdb.org/t/p/w500/3bhkrj58Vtu7enYsRolD1fZdja1.jpg">
+        <img src="https://image.tmdb.org/t/p/w500/aNtAP8ZzUMdnCPoqYgVOcgI0Eh4.jpg">
+    </div>
+</div>
 
 </body>
 </html>
