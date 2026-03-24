@@ -141,6 +141,7 @@ ansible-playbook -i inventory playbook.yml
 
 ```
 http: <PUBLIC IP>
+<img width="1361" height="644" alt="Capture" src="https://github.com/user-attachments/assets/2c80a18c-cbd6-4a4d-9ce4-62e3e42ff88a" />
 
 ```
 
