@@ -140,34 +140,12 @@ ansible-playbook -i inventory playbook.yml
 ## 🌐 Access Application
 
 ```
-http://<PUBLIC-IP>
+http: <PUBLIC IP>
+
 ```
 
 ---
 
-## ⚠️ Troubleshooting
-
-### 🔹 Permission Denied (SSH)
-
-* Check key permissions:
-
-```bash
-chmod 400 key.pem
-```
-
-### 🔹 Ansible UNREACHABLE
-
-* Verify security group (port 22 open)
-
-### 🔹 NGINX Default Page
-
-* Ensure `index.html` is inside:
-
-```
-roles/nginx/files/
-```
-
----
 
 ## 💡 Key Learnings
 
