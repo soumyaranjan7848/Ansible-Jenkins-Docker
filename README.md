@@ -123,35 +123,6 @@ ansible-playbook -i inventory playbook.yml
 
 ## 🔄 Jenkins Pipeline
 
-### Jenkinsfile
-
-```groovy
-pipeline {
-    agent any
-
-    environment {
-        ANSIBLE_HOST_KEY_CHECKING = "False"
-    }
-
-    stages {
-
-        stage('Clone Repository') {
-            steps {
-                git branch: 'main',
-                    url: 'https://github.com/<your-username>/<repo>.git'
-            }
-        }
-
-        stage('Deploy via Ansible') {
-            steps {
-                sh '''
-                cd ansible
-                ansible-playbook -i inventory playbook.yml
-                '''
-            }
-        }
-    }
-}
 ```
 
 ---
