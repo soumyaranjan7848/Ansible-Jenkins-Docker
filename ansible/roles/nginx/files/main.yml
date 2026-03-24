@@ -11,5 +11,5 @@
 
 - name: Copy website
   copy:
-    src: ../../index.html
+    src: index.html
     dest: /usr/share/nginx/html/index.html
