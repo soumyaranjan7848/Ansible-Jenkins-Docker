@@ -9,7 +9,7 @@ pipeline {
 
         stage('Clone Code') {
             steps {
-                git 'https://github.com/soumyaranjan7848/Ansible-Jenkins-Docker.git'
+                git 'https://github.com/soumyaranjan7848/Ansible-Jenkins-Docker.git','branch: main'
             }
         }
 
