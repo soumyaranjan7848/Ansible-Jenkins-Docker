@@ -7,9 +7,10 @@ pipeline {
 
     stages {
 
-        stage('Clone Code') {
+        stage('Clone Repository') {
             steps {
-                git 'https://github.com/soumyaranjan7848/Ansible-Jenkins-Docker.git','branch: main'
+                git branch: 'main',
+                    url: 'https://github.com/soumyaranjan7848/Ansible-Jenkins-Docker.git'
             }
         }
 
